@@ -30,7 +30,7 @@
 
                 <div class="card text-white bg-dark mb-3">
                     <div class="card-header text-center">
-                        <b>All Uploaded Informations</b>
+                        <b>Search Result</b>
                     </div>
                     <div class="card-body image text-center">
                         <table class="table table-dark">
@@ -45,7 +45,6 @@
                             <tbody>
                                 @foreach ($results as $key => $item)
                                     <tr>
-                                        <th scope="row">{{ $key+1 }}</th>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->nid }}</td>
                                         <td>{{ $item->phone }}</td>
