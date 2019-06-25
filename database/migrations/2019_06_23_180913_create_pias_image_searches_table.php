@@ -15,8 +15,12 @@ class CreatePiasImageSearchesTable extends Migration
     {
         Schema::create('pias_image_searches', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('name')->nullable();
+            $table->string('nid')->nullable();
+            $table->string('phone')->nullable();
             $table->timestamps();
         });
+        DB::statement("ALTER TABLE pias_image_searches ADD avatar MEDIUMBLOB");
     }
 
     /**

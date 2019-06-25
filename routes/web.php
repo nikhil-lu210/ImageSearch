@@ -32,4 +32,7 @@ Route::post('/nikhil/search/phone', 'Frontend\Nikhil\ImageSearch\ImageSearchCont
 Route::get('/pias', 'Frontend\Pias\ImageSearch\ImageSearchController@index')->name('pias.index');
 Route::get('/pias/create', 'Frontend\Pias\ImageSearch\ImageSearchController@create')->name('pias.create');
 Route::post('/pias/store', 'Frontend\Pias\ImageSearch\ImageSearchController@store')->name('pias.store');
-Route::get('/pias/show/{id}', 'Frontend\Pias\ImageSearch\ImageSearchController@show')->name('pias.show');
+Route::get('/pias/show', 'Frontend\Pias\ImageSearch\ImageSearchController@show')->name('pias.show');
+// Search Route
+Route::post('/pias/search/image', 'Frontend\Pias\ImageSearch\ImageSearchController@imageSearch')->name('pias.image.search');
+Route::post('/pias/search/basic', 'Frontend\Pias\ImageSearch\ImageSearchController@basicSearch')->name('pias.basic.search');

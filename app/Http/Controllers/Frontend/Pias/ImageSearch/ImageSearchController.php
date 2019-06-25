@@ -23,9 +23,9 @@ class ImageSearchController extends Controller
      */
     public function index()
     {
-        $images = $this->imageSearch->all();
+        $results = $this->imageSearch->orderBy('id', 'desc')->get();
 
-        return view('frontend.pias.index')->withImages($images);
+        return view('frontend.pias.index')->withResults($results);
     }
 
     /**
@@ -46,7 +46,24 @@ class ImageSearchController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request);
+        $image = new PiasImageSearch();
+
+        if($request->hasFile('avatar')){
+            $image_data=file_get_contents($request->avatar);
+
+            $encoded_image=base64_encode($image_data);
+
+            $image->avatar = $encoded_image;
+        }
+
+        $image->name = $request->name;
+        $image->nid = $request->nid;
+        $image->phone = $request->phone;
+
+        // dd($image);
+        $image->save();
+        return redirect()->back();
     }
 
     /**
@@ -55,11 +72,11 @@ class ImageSearchController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        $image = $this->imageSearch->find($id);
+        $results = $this->imageSearch->orderBy('id', 'desc')->get();
 
-        return view('frontend.pias.show')->withImage($image);
+        return view('frontend.pias.show')->withResults($results);
     }
 
     /**
@@ -94,5 +111,28 @@ class ImageSearchController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    // Image Search
+    public function imageSearch(Request $request){
+        $image_data=file_get_contents($request->image);
+        $encoded_image=base64_encode($image_data);
+
+        $results = $this->imageSearch->where('avatar', 'like', '%'.$encoded_image.'%')->orderBy('id','desc')->get();
+
+        return view('frontend.pias.show')->withResults($results);
+    }
+
+
+    // basic Search
+    public function basicSearch(Request $request){
+
+        $results = $this->imageSearch->where('name', 'like', '%'.$request->basic.'%')
+                            ->orWhere('nid', 'like', '%'.$request->basic.'%')
+                            ->orWhere('phone', 'like', '%'.$request->basic.'%')
+                            ->orderBy('id', 'desc')
+                            ->get();
+        return view('frontend.pias.show')->withResults($results);
     }
 }
